@@ -1,0 +1,113 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    ncount NUMBER;
+BEGIN
+    SELECT
+        COUNT(*)
+    INTO ncount
+    FROM
+        user_tables
+    WHERE
+        table_name = 'MEMBER_TYPE';
+
+    IF ( ncount > 0 ) THEN
+        dbms_output.put_line('MEMBER_TYPE TABLE ALREADY EXISTS');
+    ELSE
+        EXECUTE IMMEDIATE 'CREATE TABLE MEMBER_TYPE(
+    MEM_TYPE_ID NUMBER(10) PRIMARY KEY,
+    MEM_TYPE VARCHAR(50) NOT NULL)';
+    END IF;
+
+    SELECT
+        COUNT(*)
+    INTO ncount
+    FROM
+        user_tables
+    WHERE
+        table_name = 'DEGREE_LEVEL';
+
+    IF ( ncount > 0 ) THEN
+        dbms_output.put_line('DEGREE_LEVEL TABLE ALREADY EXISTS');
+    ELSE
+        EXECUTE IMMEDIATE 'CREATE TABLE DEGREE_LEVEL(
+    DEG_ID NUMBER(10) PRIMARY KEY,
+    DEG_NAME VARCHAR(50) NOT NULL)';
+    END IF;
+
+    SELECT
+        COUNT(*)
+    INTO ncount
+    FROM
+        user_tables
+    WHERE
+        table_name = 'EVENT_SITE';
+
+    IF ( ncount > 0 ) THEN
+        dbms_output.put_line('EVENT_SITE TABLE ALREADY EXISTS');
+    ELSE
+        EXECUTE IMMEDIATE 'CREATE TABLE EVENT_SITE(
+    SITE_ID NUMBER(10) PRIMARY KEY,
+    SITE_NAME VARCHAR(50) NOT NULL,
+    UNI_ID NUMBER(10) REFERENCES UNIVERSITY(UNI_ID))';
+    END IF;
+
+    SELECT
+        COUNT(*)
+    INTO ncount
+    FROM
+        user_tables
+    WHERE
+        table_name = 'MEMBERS';
+
+    IF ( ncount > 0 ) THEN
+        dbms_output.put_line('MEMBERS TABLE ALREADY EXISTS');
+    ELSE
+        EXECUTE IMMEDIATE 'CREATE TABLE MEMBERS(
+    MEMBER_ID NUMBER(10) UNIQUE PRIMARY KEY,
+    FIRST_NAME VARCHAR(100) NOT NULL,
+    LAST_NAME VARCHAR(100) NOT NULL,
+    PASSWORD VARCHAR(10) NOT NULL,
+    LOC_ID NUMBER(10) REFERENCES LOCATION(LOC_ID),
+    MEM_TYPE_ID NUMBER(10) REFERENCES MEMBER_TYPE(MEM_TYPE_ID))';
+    END IF;
+
+    SELECT
+        COUNT(*)
+    INTO ncount
+    FROM
+        user_tables
+    WHERE
+        table_name = 'PROFESSOR';
+
+    IF ( ncount > 0 ) THEN
+        dbms_output.put_line('PROFESSOR TABLE ALREADY EXISTS');
+    ELSE
+        EXECUTE IMMEDIATE 'CREATE TABLE PROFESSOR(
+    PROF_BACKGROUND VARCHAR(400) NOT NULL,
+    PROF_HIGHEST_QUAL VARCHAR(400) NOT NULL,
+    MEMBER_ID NUMBER(10) REFERENCES MEMBERS (MEMBER_ID))';
+    END IF;
+
+    SELECT
+        COUNT(*)
+    INTO ncount
+    FROM
+        user_tables
+    WHERE
+        table_name = 'ALUMNI';
+
+    IF ( ncount > 0 ) THEN
+        dbms_output.put_line('ALUMNI TABLE ALREADY EXISTS');
+    ELSE
+        EXECUTE IMMEDIATE 'CREATE TABLE ALUMNI(
+    ORGANIZATION VARCHAR(50) NOT NULL,
+    POSITION VARCHAR(50) NOT NULL,
+    EXPERIENCE NUMBER(10) NOT NULL,
+    WORK_EMAIL VARCHAR(100) UNIQUE NOT NULL,
+    ALUMNI_BACKGROUND VARCHAR(400) NOT NULL,
+    UNI_ID NUMBER(10) REFERENCES UNIVERSITY(UNI_ID),
+    MEMBER_ID NUMBER(10) REFERENCES MEMBERS (MEMBER_ID))';
+    END IF;
+
+END;

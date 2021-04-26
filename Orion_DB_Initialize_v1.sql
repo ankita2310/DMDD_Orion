@@ -175,6 +175,8 @@ ELSE
     EXECUTE IMMEDIATE 'INSERT INTO EVENT_SITE (SITE_NAME, UNI_ID, CAPACITY ) VALUES (''Kerr Hall'', 102,50)';
     
 END IF;
+
+
 SELECT COUNT(*) INTO ncount FROM user_tables WHERE table_name = 'MEMBERS';
 IF ( ncount > 0 ) THEN
         dbms_output.put_line('MEMBERS TABLE ALREADY EXISTS');

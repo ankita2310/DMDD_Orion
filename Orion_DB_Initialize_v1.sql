@@ -24,8 +24,10 @@ EXECUTE IMMEDIATE 'INSERT INTO LOCATION VALUES (7, ''San Francisco'', ''Californ
 EXECUTE IMMEDIATE 'INSERT INTO LOCATION VALUES (8, ''New York City'', ''New York'', ''United States'')';
 EXECUTE IMMEDIATE 'INSERT INTO LOCATION VALUES (9, ''Buffalo'', ''New York'', ''United States'')';
 EXECUTE IMMEDIATE 'INSERT INTO LOCATION VALUES (10, ''Newark'', ''New Jersey'', ''United States'')';
+EXECUTE IMMEDIATE 'INSERT INTO LOCATION VALUES (11, ''Others'', ''Others'', ''Others'')';
 
 END IF;
+COMMIT;
 
 SELECT count(*) into nCount FROM user_tables where table_name = 'UNIVERSITY';
 IF(nCount > 0)
@@ -45,9 +47,11 @@ EXECUTE IMMEDIATE 'INSERT INTO UNIVERSITY (UNI_NAME, LOC_ID) VALUES (''SUNY Buff
 EXECUTE IMMEDIATE 'INSERT INTO UNIVERSITY (UNI_NAME, LOC_ID) VALUES (''New York University'', 8)';
 EXECUTE IMMEDIATE 'INSERT INTO UNIVERSITY (UNI_NAME, LOC_ID) VALUES (''University of Cambridge'', 2)';
 EXECUTE IMMEDIATE 'INSERT INTO UNIVERSITY (UNI_NAME, LOC_ID) VALUES (''Harvard University'', 2)';
+EXECUTE IMMEDIATE 'INSERT INTO UNIVERSITY (UNI_NAME, LOC_ID) VALUES (''Others'', 11)';
 
 END IF;
 
+COMMIT;
 SELECT count(*) into nCount FROM user_tables where table_name = 'DEPARTMENT';
 IF(nCount > 0)
 THEN
@@ -64,10 +68,11 @@ ELSE
 	EXECUTE IMMEDIATE 'INSERT INTO DEPARTMENT (DEPT_NAME) VALUES (''Architecture'')';
 	EXECUTE IMMEDIATE 'INSERT INTO DEPARTMENT (DEPT_NAME) VALUES (''Art History'')';
 	EXECUTE IMMEDIATE 'INSERT INTO DEPARTMENT (DEPT_NAME) VALUES (''Medicine'')';
+    EXECUTE IMMEDIATE 'INSERT INTO DEPARTMENT (DEPT_NAME) VALUES (''Others'')';
 
 
 END IF;
-
+COMMIT;
 SELECT count(*) into nCount FROM user_tables where table_name = 'COURSE_MAJOR';
 IF(nCount > 0)
 THEN
@@ -86,16 +91,17 @@ ELSE
 	EXECUTE IMMEDIATE 'INSERT INTO COURSE_MAJOR (MAJ_NAME, DEPT_ID) VALUES (''Environment Science'', 15)';
 	EXECUTE IMMEDIATE 'INSERT INTO COURSE_MAJOR (MAJ_NAME, DEPT_ID) VALUES (''Pharmacology'', 35)';
 	EXECUTE IMMEDIATE 'INSERT INTO COURSE_MAJOR (MAJ_NAME, DEPT_ID) VALUES (''Project Management'', 20)';
+    EXECUTE IMMEDIATE 'INSERT INTO COURSE_MAJOR (MAJ_NAME, DEPT_ID) VALUES (''Others'', 25)';
 
 END IF;
-
+COMMIT;
 SELECT count(*) into nCount FROM user_tables where table_name = 'EVENT_STATUS';
 IF(nCount > 0)
 THEN
     DBMS_OUTPUT.PUT_LINE('EVENT_STATUS TABLE ALREADY EXISTS');
 ELSE
     EXECUTE IMMEDIATE 'CREATE TABLE EVENT_STATUS(
-    EVT_ID NUMBER(10) PRIMARY KEY,
+    EVT_STATUS_ID NUMBER(10) PRIMARY KEY,
     EVT_STATUS VARCHAR(50) NOT NULL )';
 
     EXECUTE IMMEDIATE 'INSERT INTO EVENT_STATUS VALUES (1, ''Registration Open'')';
@@ -104,7 +110,7 @@ ELSE
 
 
  END IF;
-
+COMMIT;
 SELECT count(*) into nCount FROM user_tables where table_name = 'EVENT_CATEGORY';
 IF(nCount > 0)
 THEN
@@ -125,6 +131,8 @@ ELSE
 
 
 END IF;
+
+COMMIT;
 SELECT COUNT(*) INTO ncount FROM user_tables WHERE table_name = 'MEMBER_TYPE';
 
 IF ( ncount > 0 ) 
@@ -140,6 +148,7 @@ ELSE
     EXECUTE IMMEDIATE 'INSERT INTO MEMBER_TYPE (MEM_TYPE_ID, MEM_TYPE) VALUES (3, ''Alumni'')';
     
 END IF;
+COMMIT;
 SELECT COUNT(*) INTO ncount FROM user_tables WHERE table_name = 'DEGREE_LEVEL';
 
 IF ( ncount > 0 ) THEN
@@ -154,7 +163,7 @@ ELSE
     EXECUTE IMMEDIATE 'INSERT INTO DEGREE_LEVEL (DEG_ID, DEG_NAME) VALUES (3, ''PhD'')';
 
 END IF;
-
+COMMIT;
 SELECT COUNT(*) INTO ncount FROM user_tables WHERE table_name = 'EVENT_SITE';
 IF ( ncount > 0 )
 THEN
@@ -175,6 +184,7 @@ ELSE
     EXECUTE IMMEDIATE 'INSERT INTO EVENT_SITE (SITE_NAME, UNI_ID, CAPACITY ) VALUES (''Kerr Hall'', 102,50)';
     
 END IF;
+COMMIT;
 SELECT COUNT(*) INTO ncount FROM user_tables WHERE table_name = 'MEMBERS';
 IF ( ncount > 0 ) THEN
         dbms_output.put_line('MEMBERS TABLE ALREADY EXISTS');
@@ -185,7 +195,8 @@ ELSE
     LAST_NAME VARCHAR(100) NOT NULL,
     PASSWORD VARCHAR(20) NOT NULL,
     LOC_ID NUMBER(10) REFERENCES LOCATION(LOC_ID),
-    MEM_TYPE_ID NUMBER(10) REFERENCES MEMBER_TYPE(MEM_TYPE_ID))';
+    MEM_TYPE_ID NUMBER(10) REFERENCES MEMBER_TYPE(MEM_TYPE_ID),
+    USERNAME VARCHAR(100) UNIQUE)';
     
     EXECUTE IMMEDIATE 'INSERT INTO MEMBERS (MEMBER_ID, FIRST_NAME, LAST_NAME, PASSWORD, MEM_TYPE_ID , LOC_ID) VALUES (5001, ''Miley'', ''Harrison'', ''Miley123'',1,2)';
     EXECUTE IMMEDIATE 'INSERT INTO MEMBERS (MEMBER_ID, FIRST_NAME, LAST_NAME, PASSWORD, MEM_TYPE_ID , LOC_ID) VALUES ( (Select max(MEMBER_ID)+1 from MEMBERS), ''Savana'', ''Cameron'', ''Savana123'',3,10)';
@@ -209,7 +220,11 @@ ELSE
     EXECUTE IMMEDIATE 'INSERT INTO MEMBERS (MEMBER_ID, FIRST_NAME, LAST_NAME, PASSWORD, MEM_TYPE_ID , LOC_ID) VALUES ((Select max(MEMBER_ID)+1 from MEMBERS), ''Aston'', ''Campbell'', ''Aston123'',3,8)';
             
 END IF;
+<<<<<<< HEAD
+COMMIT;
+=======
 
+>>>>>>> a98a4cb4fb919f243f1d8ca0bf2f14a5a9c0400d
 SELECT COUNT(*) INTO ncount FROM user_tables WHERE table_name = 'PROFESSOR';
 
 IF ( ncount > 0 ) 
@@ -229,6 +244,7 @@ ELSE
         EXECUTE IMMEDIATE 'INSERT INTO PROFESSOR (MEMBER_ID , PROF_BACKGROUND, PROF_HIGHEST_QUAL) VALUES (5017,''Applied operations research, healthcare, supply chain, large scale optimization, and big data analytics'',''Master’s in Educational Leadership and Administration, General'')';
         EXECUTE IMMEDIATE 'INSERT INTO PROFESSOR (MEMBER_ID , PROF_BACKGROUND, PROF_HIGHEST_QUAL) VALUES (5018,''Nonlinear dynamics, geophysical fluid dynamics, computational fluid mechanics, disaster response, experimental fluids'',''Master’s in Registered Nursing'')';
 END IF;
+COMMIT;
 SELECT COUNT(*) INTO ncount FROM user_tables WHERE table_name = 'ALUMNI';
 IF ( ncount > 0 ) 
 THEN
@@ -250,19 +266,33 @@ ELSE
     EXECUTE IMMEDIATE 'INSERT INTO ALUMNI (MEMBER_ID, ORGANIZATION ,POSITION , EXPERIENCE, EMAIL ,ALUMNI_BACKGROUND) VALUES (5020,''BMW'', ''Human Resource- Intern'',10, ''camp.aston92@gmail.com'', ''Skilled in Management, Leadership, Six Sigma'')';
 
 END IF;
+<<<<<<< HEAD
+COMMIT;
+SELECT count(*) into nCount FROM user_tables where table_name = 'STUDENT';
+IF(nCount > 0)
+THEN
+    DBMS_OUTPUT.PUT_LINE('TABLE STUDENT ALREADY EXISTS');
+=======
 
 SELECT count(*) into nCount FROM user_tables where table_name = 'STUDENT';
 IF(nCount > 0)
 THEN
     DBMS_OUTPUT.PUT_LINE('STUDENT TABLE ALREADY EXISTS');
+>>>>>>> a98a4cb4fb919f243f1d8ca0bf2f14a5a9c0400d
 ELSE
      EXECUTE IMMEDIATE 'CREATE TABLE STUDENT(
       MEMBER_ID NUMBER(10)REFERENCES MEMBERS(MEMBER_ID),
       UNI_ID NUMBER(10) REFERENCES UNIVERSITY(UNI_ID),
       MAJ_ID NUMBER(10) REFERENCES COURSE_MAJOR(MAJ_ID),
+<<<<<<< HEAD
+      DEGREE_LEVEL NUMBER(10) REFERENCES DEGREE_LEVEL(DEG_ID),
+      EMAIL VARCHAR(400) NOT NULL,
+      STUDENT_BACKROUND VARCHAR(50) NOT NULL,
+=======
       DEGREE_LEVEL NUMBER(10) REFERENCES DEGREE_LEVEL(DEG_ID) NOT NULL,
       EMAIL VARCHAR(400) NOT NULL,
       STUDENT_BACKGROUND VARCHAR(50),
+>>>>>>> a98a4cb4fb919f243f1d8ca0bf2f14a5a9c0400d
       EXPECTED_GRADDATE DATE NOT NULL,
       CHECK(EMAIL LIKE ''%@%edu%''))';  
  
@@ -274,6 +304,10 @@ EXECUTE IMMEDIATE 'INSERT INTO STUDENT  VALUES (5009, 102,3007,(select DEG_ID fr
 EXECUTE IMMEDIATE 'INSERT INTO STUDENT  VALUES (5013,104,3004,(select DEG_ID from DEGREE_LEVEL WHERE UPPER(DEG_NAME)=''GRADUATE''),''JonesBrianna@sunnybuffalow.edu'',''physics'',((to_date(''May 2022'', ''Mon YYYY''))))';
 EXECUTE IMMEDIATE 'INSERT INTO STUDENT  VALUES (5016,105,3001,(select DEG_ID from DEGREE_LEVEL WHERE UPPER(DEG_NAME)=''PHD''),''JonesAlina@newyorkuniversity.edu'',''informatics'',((to_date(''Jul 2024'', ''Mon YYYY''))))';
 END IF;
+<<<<<<< HEAD
+COMMIT;
+=======
+>>>>>>> a98a4cb4fb919f243f1d8ca0bf2f14a5a9c0400d
 SELECT count(*) into nCount FROM user_tables where table_name = 'PROF_UNIVERSITY';
 IF(nCount > 0)
 THEN
@@ -297,7 +331,11 @@ EXECUTE IMMEDIATE 'INSERT INTO Prof_University (PROF_ID, UNI_ID, EMAIL) VALUES (
 EXECUTE IMMEDIATE 'INSERT INTO Prof_University (PROF_ID, UNI_ID, EMAIL) VALUES (5018,107,''DaleBrooks@harvarduniverstiy.edu'')'; 
 
 END IF;
+<<<<<<< HEAD
+COMMIT;
+=======
 
+>>>>>>> a98a4cb4fb919f243f1d8ca0bf2f14a5a9c0400d
 SELECT count(*) into nCount FROM user_tables where table_name = 'OPEN_SOURCE_PROJECTS';
 IF(nCount > 0)
 THEN
@@ -330,7 +368,11 @@ ELSE
     EVT_HOST_ID  NUMBER(10) REFERENCES MEMBERS(MEMBER_ID),
     EVT_VENUE NUMBER(10) REFERENCES EVENT_SITE (SITE_ID ),
     EVT_LINK VARCHAR(400),
+<<<<<<< HEAD
+    EVT_STATUS NUMBER(10) REFERENCES EVENT_STATUS(EVT_STATUS_ID))';
+=======
     EVT_STATUS NUMBER(10) REFERENCES EVENT_STATUS(EVT_ID))';
+>>>>>>> a98a4cb4fb919f243f1d8ca0bf2f14a5a9c0400d
     
 EXECUTE IMMEDIATE 'INSERT INTO EVENT (EVT_NAME,EVT_CAT_ID,EVT_HOST_ID,EVT_STATUS,EVT_LINK,EVT_DATETIME)  VALUES (''OVERCOMING IMPOSTER SYNDROME'',2,5001,3,''http://calendar.northeastern.edu/event/overcoming_imposter_syndrome_in_academia'',((to_date(''03/05/2021'', ''DD/MM/YYYY''))))';    
 EXECUTE IMMEDIATE 'INSERT INTO EVENT (EVT_NAME,EVT_CAT_ID,EVT_HOST_ID,EVT_VENUE,EVT_STATUS,EVT_DATETIME) VALUES (''Linguistics Program Poster Session'',2,5007,14,1,((to_date(''5/5/2021'', ''DD/MM/YYYY''))))';    
@@ -359,3 +401,7 @@ EXECUTE IMMEDIATE 'INSERT INTO EVENT_REGISTRATION (EVT_ID, MEMBER_ID) VALUES (20
 
 END IF;
 END;
+<<<<<<< HEAD
+--COMMIT;
+=======
+>>>>>>> a98a4cb4fb919f243f1d8ca0bf2f14a5a9c0400d

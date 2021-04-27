@@ -1,0 +1,26 @@
+------- TABLES IN SEQUENCE TO DROP ALL TABLES(IF NEEDED)-------
+----NOTE: TABLES SHOULD BE DROPPED IN THE SAME SEQUENCE IF THERE IS A NEED----
+
+SET SERVEROUT ON;
+
+DROP TABLE Event_Registration;
+DROP TABLE Event;
+DROP TABLE Open_Source_Projects;
+DROP TABLE Student;
+DROP TABLE Prof_University;
+DROP TABLE Alumni;
+DROP TABLE Professor;
+DROP TABLE Members;
+DROP TABLE Event_Site;
+DROP TABLE Degree_Level;
+DROP TABLE Member_Type;
+DROP TABLE Event_Category;
+DROP TABLE Event_Status;
+DROP TABLE Course_Major;
+DROP TABLE Department;
+DROP TABLE University;
+DROP TABLE LOCATION;
+
+
+
+---SELECT * FROM user_tables;

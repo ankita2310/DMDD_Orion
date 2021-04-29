@@ -10,4 +10,4 @@ GET STARTED! ALL ACTIONS TO BE PERFORMED!
 4.To access availbe features in the Orion Database, please run the ORION_ACTIONS stored procedure as EXECUTE ADMIN.ORION_ACTIONS
 5.To register for an event, please run the stored procedure, EVENT_REGISTER as - EXECUTE ADMIN.EVENT_HANDLING.EVENT_REGISTER(EVENT_NAME)
 6.To drop from the event, please run the stored procedure, EVENT_DEREGISTRATION as - EXECUTE ADMIN.EVENT_HANDLING.EVENT_DEREGISTRATION(EVENT_NAME)
-7.To add an event, please run the stored procedure, ADD_EVENT as - EXECUTE ADMIN.ADD_EVENT(EVENT_NAME)
+7.To add an event, please run the stored procedure, ADD_EVENT as - EXECUTE EXECUTE ADMIN.ADD_EVENT_GUIDE(<EV_NAME>, <EV_CAT>, <EV_DATE(dd-mm-yyyy)>, <EV_VENUE>, <EV_LINK (if available)>)
